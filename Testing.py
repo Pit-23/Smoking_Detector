@@ -4,14 +4,17 @@ from tensorflow import keras
 from keras.models import load_model # type: ignore
 from keras import layers
 import os
-import cv2
 from PIL import Image, ImageOps
 import numpy as np
 
 st.set_option('deprecation.showfileUploaderEncoding', False)
 st.title("Smoker Detector AI")
-def load():
+def load1():
     model = tf.keras.models.load_model('Smoking_kill_you.h5')
+    return model
+
+def load2():
+    model = tf.keras.models.load_model('Smoking_kill_you2.h5')
     return model
 
 def scale(imag):
@@ -23,11 +26,20 @@ def predict(img, forthemodel):
     return testing
 
 choice = ["Webcam", "Image Upload"]
+moel = ["New", "Old"]
 
 with st.spinner("Loading the model") :
-    model = load()
+    model1 = load1()
+    model2 = load2()
 
 option = st.selectbox("Choose what Method that to be used", choice)
+
+option2 = st.selectbox("Chose What Model that to be used", moel)
+
+if option2 == "New" :
+    model = model2
+elif option2 == "Old" :
+    model = model1
 
 if option == "Webcam" : 
     file = st.camera_input("Upload a picture")
